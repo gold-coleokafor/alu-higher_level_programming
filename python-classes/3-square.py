@@ -1,5 +1,11 @@
 #!/usr/bin/python3
+
+"""Defines a class Square with an area method."""
+
+
 class Square:
+    """Defines a square by its size."""
+
     def __init__(self, size=0):
         if type(size) is not int:
             raise TypeError("size must be an integer")
