@@ -15,7 +15,7 @@ Valid products:
 >>> print(lazy_matrix_mul([[1.5, 2]], [[2], [3]]))
 [[9.]]
 
-m_a is a string (m_a must be a list):
+m_a is a string (TypeError: m_a must be a list):
 
 >>> try:
 ...     lazy_matrix_mul("abc", [[1, 2], [3, 4]])
