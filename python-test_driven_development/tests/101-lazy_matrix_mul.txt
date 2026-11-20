@@ -3,6 +3,19 @@ The ``101-lazy_matrix_mul`` module
 
 >>> lazy_matrix_mul = __import__('101-lazy_matrix_mul').lazy_matrix_mul
 
+NumPy's exception classes and messages differ between versions, so this helper
+reports only whether a TypeError or a ValueError was raised.
+
+>>> def err(a, b):
+...     try:
+...         lazy_matrix_mul(a, b)
+...     except TypeError:
+...         return "TypeError"
+...     except ValueError:
+...         return "ValueError"
+
+Valid products:
+
 >>> print(lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3, 4]]))
 [[ 7 10]
  [15 22]]
@@ -10,9 +23,55 @@ The ``101-lazy_matrix_mul`` module
 >>> print(lazy_matrix_mul([[1, 2]], [[3, 4], [5, 6]]))
 [[13 16]]
 
->>> lazy_matrix_mul([[1, 2]], [[1, 2]])  # doctest: +IGNORE_EXCEPTION_DETAIL
-Traceback (most recent call last):
-ValueError: shapes (1,2) and (1,2) not aligned
+>>> print(lazy_matrix_mul([[1.5, 2]], [[2], [3]]))
+[[9.]]
+
+m_a is a string, m_b is a list of lists of numbers:
+
+>>> err("abc", [[1, 2], [3, 4]])
+'TypeError'
+
+m_a is a list of lists of numbers, m_b is a string:
+
+>>> err([[1, 2], [3, 4]], "abc")
+'TypeError'
+
+m_a is empty, m_b is a list of lists of numbers:
+
+>>> err([], [[1, 2], [3, 4]])
+'ValueError'
+
+m_a is a list of lists of numbers, m_b is empty:
+
+>>> err([[1, 2], [3, 4]], [])
+'ValueError'
+
+m_a contains non-numbers:
+
+>>> err([["a", "b"], ["c", "d"]], [[1, 2], [3, 4]])
+'TypeError'
+
+m_b contains non-numbers:
+
+>>> err([[1, 2], [3, 4]], [["a", "b"], ["c", "d"]])
+'TypeError'
+
+m_a has rows of different sizes:
+
+>>> err([[1, 2], [3]], [[1, 2], [3, 4]])
+'ValueError'
+
+m_b has rows of different sizes:
+
+>>> err([[1, 2], [3, 4]], [[1, 2], [3]])
+'ValueError'
+
+m_a and m_b cannot be multiplied:
+
+>>> err([[1, 2]], [[1, 2]])
+'ValueError'
+
+Missing arguments:
 
 >>> lazy_matrix_mul()
 Traceback (most recent call last):
