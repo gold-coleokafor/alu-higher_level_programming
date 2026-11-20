@@ -15,10 +15,7 @@ Valid products:
 >>> print(lazy_matrix_mul([[1.5, 2]], [[2], [3]]))
 [[9.]]
 
-NumPy raises its own exceptions, and their class depends on the NumPy
-version, so each error case checks that a TypeError or ValueError is raised.
-
-m_a is a string (TypeError: m_a must be a list):
+m_a is a string (m_a must be a list):
 
 >>> try:
 ...     lazy_matrix_mul("abc", [[1, 2], [3, 4]])
@@ -26,7 +23,7 @@ m_a is a string (TypeError: m_a must be a list):
 ...     print(isinstance(e, (TypeError, ValueError)))
 True
 
-m_b is a string (TypeError: m_b must be a list):
+m_b is a string (m_b must be a list):
 
 >>> try:
 ...     lazy_matrix_mul([[1, 2], [3, 4]], "abc")
@@ -34,61 +31,51 @@ m_b is a string (TypeError: m_b must be a list):
 ...     print(isinstance(e, (TypeError, ValueError)))
 True
 
-m_a is empty (ValueError: m_a can't be empty):
+m_a is empty (m_a can't be empty):
 
->>> try:
-...     lazy_matrix_mul([], [[1, 2], [3, 4]])
-... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
-True
+>>> lazy_matrix_mul([], [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: m_a can't be empty
 
-m_b is empty (ValueError: m_b can't be empty):
+m_b is empty (m_b can't be empty):
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]], [])
-... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
-True
+>>> lazy_matrix_mul([[1, 2], [3, 4]], [])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: m_b can't be empty
 
-m_a has non-numbers (TypeError: m_a should contain only integers or floats):
+m_a has non-numbers (m_a should contain only integers or floats):
 
 >>> try:
 ...     lazy_matrix_mul([["a", "b"], ["c", "d"]], [[1, 2], [3, 4]])
 ... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
+...     print(isinstance(e, TypeError))
 True
 
-m_b has non-numbers (TypeError: m_b should contain only integers or floats):
+m_b has non-numbers (m_b should contain only integers or floats):
 
 >>> try:
 ...     lazy_matrix_mul([[1, 2], [3, 4]], [["a", "b"], ["c", "d"]])
 ... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
+...     print(isinstance(e, TypeError))
 True
 
-m_a rows differ in size (TypeError: each row of m_a must should be of the same size):
+m_a rows differ in size (each row of m_a must should be of the same size):
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3]], [[1, 2], [3, 4]])
-... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
-True
+>>> lazy_matrix_mul([[1, 2], [3]], [[1, 2], [3, 4], [5, 6]])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: each row of m_a must should be of the same size
 
-m_b rows differ in size (TypeError: each row of m_b must should be of the same size):
+m_b rows differ in size (each row of m_b must should be of the same size):
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3]])
-... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
-True
+>>> lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3]])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: each row of m_b must should be of the same size
 
-Shapes that cannot be multiplied (ValueError: m_a and m_b can't be multiplied):
+Shapes that cannot be multiplied (m_a and m_b can't be multiplied):
 
->>> try:
-...     lazy_matrix_mul([[1, 2]], [[1, 2]])
-... except Exception as e:
-...     print(isinstance(e, (TypeError, ValueError)))
-True
+>>> lazy_matrix_mul([[1, 2]], [[1, 2]])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: m_a and m_b can't be multiplied
 
 Missing arguments:
 
