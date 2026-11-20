@@ -12,7 +12,7 @@ def index():
 
 @app.route("/status", strict_slashes=False)
 def status():
-    """ API
+    """ Status
     """
     return "Custom status"
 
