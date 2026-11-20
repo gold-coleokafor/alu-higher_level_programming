@@ -10,16 +10,18 @@ def matrix_divided(matrix, div):
     Returns a new matrix and leaves the original unchanged.
     """
     msg = "matrix must be a matrix (list of lists) of integers/floats"
-    if (not isinstance(matrix, list) or matrix == []
-            or not all(isinstance(row, list) for row in matrix)):
+    if not isinstance(matrix, list) or matrix == []:
         raise TypeError(msg)
     for row in matrix:
+        if not isinstance(row, list):
+            raise TypeError(msg)
         for n in row:
             if type(n) not in (int, float):
                 raise TypeError(msg)
     size = len(matrix[0])
-    if any(len(row) != size for row in matrix):
-        raise TypeError("Each row of the matrix must have the same size")
+    for row in matrix:
+        if len(row) != size:
+            raise TypeError("Each row of the matrix must have the same size")
     if type(div) not in (int, float):
         raise TypeError("div must be a number")
     if div == 0:
