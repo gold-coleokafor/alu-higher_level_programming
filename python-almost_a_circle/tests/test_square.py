@@ -28,3 +28,18 @@ class TestSquare(unittest.TestCase):
             Square(0)
         with self.assertRaisesRegex(ValueError, "x must be >= 0"):
             Square(1, -1)
+
+    def test_square_1_2_3(self):
+        """Square(1, 2, 3) sets size, x and y."""
+        s = Square(1, 2, 3)
+        self.assertEqual((s.size, s.x, s.y), (1, 2, 3))
+
+    def test_square_1_str_2(self):
+        """Square(1, "2") raises TypeError for x."""
+        with self.assertRaisesRegex(TypeError, "x must be an integer"):
+            Square(1, "2")
+
+    def test_square_1_2_str_3(self):
+        """Square(1, 2, "3") raises TypeError for y."""
+        with self.assertRaisesRegex(TypeError, "y must be an integer"):
+            Square(1, 2, "3")

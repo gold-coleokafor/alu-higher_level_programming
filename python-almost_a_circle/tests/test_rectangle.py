@@ -96,3 +96,22 @@ class TestRectangle(unittest.TestCase):
         self.assertEqual(str(r), "[Rectangle] (89) 3/1 - 2/10")
         r.update(5, width=99)
         self.assertEqual((r.id, r.width), (5, 2))
+
+    def test_rectangle_1_0(self):
+        """Rectangle(1, 0) raises ValueError for height."""
+        with self.assertRaisesRegex(ValueError, "height must be > 0"):
+            Rectangle(1, 0)
+
+    def test_to_dictionary(self):
+        """to_dictionary returns every attribute."""
+        r = Rectangle(10, 2, 1, 9, 5)
+        self.assertEqual(r.to_dictionary(),
+                         {"id": 5, "width": 10, "height": 2,
+                          "x": 1, "y": 9})
+
+    def test_save_to_file_empty(self):
+        """Rectangle.save_to_file([]) writes an empty list."""
+        Rectangle.save_to_file([])
+        with open("Rectangle.json") as f:
+
+            self.assertEqual(f.read(), "[]")
