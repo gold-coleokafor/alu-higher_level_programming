@@ -67,3 +67,32 @@ class TestRectangle(unittest.TestCase):
         with patch("sys.stdout", new=io.StringIO()) as out:
             Rectangle(2, 2).display()
         self.assertEqual(out.getvalue(), "##\n##\n")
+    def test_str(self):
+        """__str__ format."""
+        self.assertEqual(str(Rectangle(4, 6, 2, 1, 12)),
+                         "[Rectangle] (12) 2/1 - 4/6")
+
+    def test_display_offsets(self):
+        """Display honours x and y."""
+        with patch("sys.stdout", new=io.StringIO()) as out:
+            Rectangle(3, 2, 1, 0).display()
+        self.assertEqual(out.getvalue(), " ###\n ###\n")
+        with patch("sys.stdout", new=io.StringIO()) as out:
+            Rectangle(2, 1, 2, 2).display()
+        self.assertEqual(out.getvalue(), "\n\n  ##\n")
+
+    def test_update_args(self):
+        """Positional update."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(89, 2, 3, 4, 5)
+        self.assertEqual(str(r), "[Rectangle] (89) 4/5 - 2/3")
+        r.update(7)
+        self.assertEqual(r.id, 7)
+
+    def test_update_kwargs(self):
+        """Keyword update, skipped when args exist."""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(y=1, width=2, x=3, id=89)
+        self.assertEqual(str(r), "[Rectangle] (89) 3/1 - 2/10")
+        r.update(5, width=99)
+        self.assertEqual((r.id, r.width), (5, 2))

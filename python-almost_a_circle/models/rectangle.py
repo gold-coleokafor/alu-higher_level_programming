@@ -76,7 +76,22 @@ class Rectangle(Base):
         """Return the area of the rectangle."""
         return self.__width * self.__height
 
+    def __str__(self):
+        """Return [Rectangle] (<id>) <x>/<y> - <width>/<height>."""
+        return "[Rectangle] ({}) {}/{} - {}/{}".format(
+            self.id, self.__x, self.__y, self.__width, self.__height)
+
     def display(self):
-        """Print the rectangle with the character #."""
+        """Print the rectangle with #, using x and y offsets."""
+        print("\n" * self.__y, end="")
         for i in range(self.__height):
-            print("#" * self.__width)
+            print(" " * self.__x + "#" * self.__width)
+    def update(self, *args, **kwargs):
+        """Assign values to attributes, by position or by keyword."""
+        if args:
+            names = ["id", "width", "height", "x", "y"]
+            for name, value in zip(names, args):
+                setattr(self, name, value)
+        else:
+            for name, value in kwargs.items():
+                setattr(self, name, value)
