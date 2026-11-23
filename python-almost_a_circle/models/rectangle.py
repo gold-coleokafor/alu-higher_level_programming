@@ -86,6 +86,7 @@ class Rectangle(Base):
         print("\n" * self.__y, end="")
         for i in range(self.__height):
             print(" " * self.__x + "#" * self.__width)
+
     def update(self, *args, **kwargs):
         """Assign values to attributes, by position or by keyword."""
         if args:
