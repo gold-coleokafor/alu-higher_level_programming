@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Defines the Base class."""
+import csv
 import json
 
 
@@ -59,3 +60,34 @@ class Base:
         except FileNotFoundError:
             return []
         return [cls.create(**d) for d in data]
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        """Write list_objs to <Class>.csv, one object per row."""
+        if cls.__name__ == "Rectangle":
+            fields = ["id", "width", "height", "x", "y"]
+        else:
+            fields = ["id", "size", "x", "y"]
+        with open(cls.__name__ + ".csv", "w", newline="",
+                  encoding="utf-8") as f:
+            writer = csv.writer(f)
+            if list_objs:
+                for obj in list_objs:
+                    d = obj.to_dictionary()
+                    writer.writerow([d[k] for k in fields])
+
+    @classmethod
+    def load_from_file_csv(cls):
+        """Return a list of instances loaded from <Class>.csv."""
+        if cls.__name__ == "Rectangle":
+            fields = ["id", "width", "height", "x", "y"]
+        else:
+            fields = ["id", "size", "x", "y"]
+        try:
+            with open(cls.__name__ + ".csv", newline="",
+                      encoding="utf-8") as f:
+                rows = list(csv.reader(f))
+        except FileNotFoundError:
+            return []
+        return [cls.create(**{k: int(v) for k, v in zip(fields, row)})
+                for row in rows]
