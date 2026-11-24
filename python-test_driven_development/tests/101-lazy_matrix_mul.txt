@@ -7,44 +7,46 @@
 >>> print(lazy_matrix_mul([[1, 2]], [[3, 4], [5, 6]]))
 [[13 16]]
 
-m_a is a string, m_b is a list of lists of numbers:
-
 >>> lazy_matrix_mul("abc", [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-ValueError: Scalar operands are not allowed, use '*' instead
-
-m_a is a list of lists of numbers, m_b is a string:
+_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
 
 >>> lazy_matrix_mul([[1, 2], [3, 4]], "abc")  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-ValueError: Scalar operands are not allowed, use '*' instead
-
-m_a is a list of lists of not numbers:
+_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
 
 >>> lazy_matrix_mul([["a", 2], [3, 4]], [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-TypeError: invalid data type for einsum
-
-m_b is a list of lists of not numbers:
+_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
 
 >>> lazy_matrix_mul([[1, 2], [3, 4]], [["a", 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-TypeError: invalid data type for einsum
-
-m_a has rows of various sizes:
+_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
 
 >>> lazy_matrix_mul([[1, 2], [3]], [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 ValueError: setting an array element with a sequence.
 
-m_b has rows of various sizes:
-
 >>> lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 ValueError: setting an array element with a sequence.
 
-The matrices can't be multiplied:
-
 >>> lazy_matrix_mul([[1, 2]], [[1, 2]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 ValueError: shapes (1,2) and (1,2) not aligned: 2 (dim 1) != 1 (dim 0)
+
+>>> lazy_matrix_mul([], [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: m_a can't be empty
+
+>>> lazy_matrix_mul([[1, 2], [3, 4]], [])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: m_b can't be empty
+
+>>> lazy_matrix_mul([[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: lazy_matrix_mul() missing 1 required positional argument: 'm_b'
+
+>>> lazy_matrix_mul()  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: lazy_matrix_mul() missing 2 required positional arguments: 'm_a' and 'm_b'
