@@ -9,19 +9,19 @@
 
 >>> lazy_matrix_mul("abc", [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
+ValueError: Scalar operands are not allowed, use '*' instead
 
 >>> lazy_matrix_mul([[1, 2], [3, 4]], "abc")  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
+ValueError: Scalar operands are not allowed, use '*' instead
 
 >>> lazy_matrix_mul([["a", 2], [3, 4]], [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
+TypeError: invalid data type for einsum
 
 >>> lazy_matrix_mul([[1, 2], [3, 4]], [["a", 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
-_UFuncNoLoopError: ufunc 'matmul' did not contain a loop with signature matching types
+TypeError: invalid data type for einsum
 
 >>> lazy_matrix_mul([[1, 2], [3]], [[1, 2], [3, 4]])  # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
