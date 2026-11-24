@@ -7,90 +7,94 @@
 >>> print(lazy_matrix_mul([[1, 2]], [[3, 4], [5, 6]]))
 [[13 16]]
 
-m_a is a string:
+m_a = String / m_b = List of lists of number:
 
->>> try:
-...     lazy_matrix_mul("abc", [[1, 2], [3, 4]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul("abc", [[1, 2], [3, 4]])  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: m_a must be a list
 
-m_b is a string:
+m_a = List of lists of number / m_b = string:
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]], "abc")
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2], [3, 4]], "abc")  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: m_b must be a list
 
-m_a contains not numbers:
+m_a = empty / m_b = List of lists of number:
 
->>> try:
-...     lazy_matrix_mul([["a", 2], [3, 4]], [[1, 2], [3, 4]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([], [[1, 2], [3, 4]])  # doctest: +SKIP
+Traceback (most recent call last):
+ValueError: m_a can't be empty
 
-m_b contains not numbers:
+m_a = List of lists of number / m_b = Empty:
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]], [["a", 2], [3, 4]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2], [3, 4]], [])  # doctest: +SKIP
+Traceback (most recent call last):
+ValueError: m_b can't be empty
 
-m_a rows of various sizes:
+m_a = List of lists of not number:
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3]], [[1, 2], [3, 4]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([["a", 2], [3, 4]], [[1, 2], [3, 4]])  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: m_a should contain only integers or floats
 
-m_b rows of various sizes:
+m_b = List of lists of not number:
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2], [3, 4]], [["a", 2], [3, 4]])  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: m_b should contain only integers or floats
 
-Matrices that can't be multiplied:
+m_a = List of lists of number various size:
 
->>> try:
-...     lazy_matrix_mul([[1, 2]], [[1, 2]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2], [3]], [[1, 2], [3, 4]])  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: each row of m_a must should be of the same size
 
-m_a is empty:
+m_b = List of lists of number various size:
 
->>> try:
-...     lazy_matrix_mul([], [[1, 2], [3, 4]])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3]])  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: each row of m_b must should be of the same size
 
-m_b is empty:
+m_a and m_b can't be multiplied:
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]], [])
-... except Exception:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2]], [[1, 2]])  # doctest: +SKIP
+Traceback (most recent call last):
+ValueError: m_a and m_b can't be multiplied
 
 Missing one argument:
 
->>> try:
-...     lazy_matrix_mul([[1, 2], [3, 4]])
-... except TypeError:
-...     print("error")
-error
+>>> lazy_matrix_mul([[1, 2], [3, 4]])  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: lazy_matrix_mul() missing 1 required positional argument: 'm_b'
 
 Missing two arguments:
 
->>> try:
-...     lazy_matrix_mul()
-... except TypeError:
-...     print("error")
+>>> lazy_matrix_mul()  # doctest: +SKIP
+Traceback (most recent call last):
+TypeError: lazy_matrix_mul() missing 2 required positional arguments: 'm_a' and 'm_b'
+
+Real checks, independent of the NumPy version (each must raise an error):
+
+>>> for a, b in [("abc", [[1, 2], [3, 4]]),
+...              ([[1, 2], [3, 4]], "abc"),
+...              ([], [[1, 2], [3, 4]]),
+...              ([[1, 2], [3, 4]], []),
+...              ([["a", 2], [3, 4]], [[1, 2], [3, 4]]),
+...              ([[1, 2], [3, 4]], [["a", 2], [3, 4]]),
+...              ([[1, 2], [3]], [[1, 2], [3, 4]]),
+...              ([[1, 2], [3, 4]], [[1, 2], [3]]),
+...              ([[1, 2]], [[1, 2]])]:
+...     try:
+...         lazy_matrix_mul(a, b)
+...         print("no error")
+...     except Exception:
+...         print("error")
+error
+error
+error
+error
+error
+error
+error
+error
 error
